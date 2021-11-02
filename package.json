@@ -37,7 +37,7 @@
     "html5shiv": "3.7.3",
     "jquery": "3.6.0",
     "lodash-3": "https://github.com/lodash/lodash/archive/3.10.1.tar.gz",
-    "normalize-css": "git://github.com/necolas/normalize.css.git#02c5c7adbbec1707900fde86068405735c733b42",
+    "normalize-css": "git+https://github.com/necolas/normalize.css.git#02c5c7adbbec1707900fde86068405735c733b42",
     "picturefill": "3.0.3",
     "respond.js": "1.4.2"
   },
