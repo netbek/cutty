@@ -76,7 +76,7 @@
     "gulp-webserver": "0.9.1",
     "livereload": "0.9.3",
     "lodash": "4.17.21",
-    "node-sass": "6.0.1",
+    "node-sass": "7.0.0",
     "nunjucks": "3.2.3",
     "open": "0.0.5",
     "penrose": "0.2.25",
