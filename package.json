@@ -59,7 +59,7 @@
     "nunjucks": "3.2.3",
     "open": "0.0.5",
     "penrose": "0.2.27",
-    "prettier": "1.19.1",
+    "prettier": "2.6.2",
     "through2": "3.0.2",
     "uglifyjs-webpack-plugin": "1",
     "webpack": "4.46.0"
