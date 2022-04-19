@@ -88,21 +88,26 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+"use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _ = __webpack_require__(1);
+
 var jQuery = __webpack_require__(2);
+
 var picturefill = __webpack_require__(3);
 
 var MODULE_NAME = 'Cutty';
 
 var Cutty = function () {
   function Cutty(config) {
-    _classCallCheck(this, Cutty);
-
-    this.config = _extends({
+    this.config = _objectSpread({
       debug: false,
       mediaqueries: {
         small: 'only screen and (min-width: 0px)',
@@ -112,41 +117,35 @@ var Cutty = function () {
         xxlarge: 'only screen and (min-width: 1920px)',
         landscape: 'only screen and (orientation: landscape)',
         portrait: 'only screen and (orientation: portrait)',
-
         retina: 'only screen and (-webkit-min-device-pixel-ratio: 2), ' + 'only screen and (min--moz-device-pixel-ratio: 2), ' + 'only screen and (-o-min-device-pixel-ratio: 2/1), ' + 'only screen and (min-device-pixel-ratio: 2), ' + 'only screen and (min-resolution: 192dpi), ' + 'only screen and (min-resolution: 2dppx)'
       }
     }, config);
-
     this.flags = {
       init: false,
       console: !!console
     };
-
     this.currentValues = [];
     this.events = [];
   }
 
-  Cutty.prototype.init = function init() {
+  var _proto = Cutty.prototype;
+
+  _proto.init = function init() {
     if (this.flags.init) {
       return this;
     }
 
     this.log(MODULE_NAME + '.init()');
-
     this.flags.init = true;
-
     var self = this;
-
     jQuery(window).on('resize.cutty', _.throttle(function () {
       return self.update();
     }, 60));
-
     self.update();
-
     return this;
   };
 
-  Cutty.prototype.destroy = function destroy() {
+  _proto.destroy = function destroy() {
     if (!this.flags.init) {
       return;
     }
@@ -154,24 +153,23 @@ var Cutty = function () {
     this.log(MODULE_NAME + '.destroy()');
   };
 
-  Cutty.prototype.log = function log(msg) {
+  _proto.log = function log(msg) {
     if (this.config.debug && this.flags.console) {
       console.debug(msg);
     }
   };
 
-  Cutty.prototype.on = function on(name, callback) {
-    this.events.push({ name: name, callback: callback });
-
+  _proto.on = function on(name, callback) {
+    this.events.push({
+      name: name,
+      callback: callback
+    });
     return this;
   };
 
-  Cutty.prototype.update = function update() {
+  _proto.update = function update() {
     this.log(MODULE_NAME + '.update()');
-
     var mediaqueries = this.config.mediaqueries;
-
-
     var nextValues = Object.keys(mediaqueries).filter(function (name) {
       return picturefill._.matchesMedia(mediaqueries[name]);
     });
@@ -181,9 +179,7 @@ var Cutty = function () {
     }
 
     var previousValues = [].concat(this.currentValues);
-
     this.currentValues = nextValues;
-
     this.events.filter(function (e) {
       return e.name === 'update';
     }).forEach(function (e) {
@@ -191,23 +187,25 @@ var Cutty = function () {
     });
   };
 
-  Cutty.prototype.parseSrcset = function parseSrcset(srcset) {
+  _proto.parseSrcset = function parseSrcset(srcset) {
     return srcset.split(',').map(function (candidate) {
       var parts = candidate.replace(/\s+/g, ' ').trim().split(' ');
       var url = parts[0];
       var names = parts.slice(1);
-
-      return { url: url, names: names };
+      return {
+        url: url,
+        names: names
+      };
     });
   };
 
-  Cutty.prototype.pickBestCandidate = function pickBestCandidate(candidates, mqNames) {
+  _proto.pickBestCandidate = function pickBestCandidate(candidates, mqNames) {
     if (!candidates.length) {
       return {};
     }
 
     var matched = candidates.map(function (candidate) {
-      return _extends({}, candidate, {
+      return _objectSpread(_objectSpread({}, candidate), {}, {
         count: _.intersection(candidate.names, mqNames).length
       });
     }).filter(function (candidate) {
