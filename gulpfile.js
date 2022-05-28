@@ -185,11 +185,11 @@ gulp.task('webserver-init', (cb) => {
 });
 
 // Start livereload server
-gulp.task('livereload-init', (cb) => {
+gulp.task('livereload-init', async (cb) => {
   if (!flags.livereloadInit) {
     flags.livereloadInit = true;
     server = livereload.createServer();
-    open(livereloadOpen, browser);
+    await open(livereloadOpen, {app: browser});
   }
   cb();
 });
