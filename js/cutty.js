@@ -92,19 +92,12 @@
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var _ = __webpack_require__(1);
-
 var jQuery = __webpack_require__(2);
-
 var picturefill = __webpack_require__(3);
-
 var MODULE_NAME = 'Cutty';
-
 var Cutty = function () {
   function Cutty(config) {
     this.config = _objectSpread({
@@ -129,12 +122,11 @@ var Cutty = function () {
   }
 
   var _proto = Cutty.prototype;
-
-  _proto.init = function init() {
+  _proto.init =
+  function init() {
     if (this.flags.init) {
       return this;
     }
-
     this.log(MODULE_NAME + '.init()');
     this.flags.init = true;
     var self = this;
@@ -143,31 +135,35 @@ var Cutty = function () {
     }, 60));
     self.update();
     return this;
-  };
+  }
 
-  _proto.destroy = function destroy() {
+  ;
+  _proto.destroy =
+  function destroy() {
     if (!this.flags.init) {
       return;
     }
-
     this.log(MODULE_NAME + '.destroy()');
-  };
+  }
 
-  _proto.log = function log(msg) {
+  ;
+  _proto.log =
+  function log(msg) {
     if (this.config.debug && this.flags.console) {
       console.debug(msg);
     }
   };
-
   _proto.on = function on(name, callback) {
     this.events.push({
       name: name,
       callback: callback
     });
     return this;
-  };
+  }
 
-  _proto.update = function update() {
+  ;
+  _proto.update =
+  function update() {
     this.log(MODULE_NAME + '.update()');
     var mediaqueries = this.config.mediaqueries;
     var nextValues = Object.keys(mediaqueries).filter(function (name) {
@@ -177,7 +173,6 @@ var Cutty = function () {
     if (_.isEqual(this.currentValues, nextValues)) {
       return;
     }
-
     var previousValues = [].concat(this.currentValues);
     this.currentValues = nextValues;
     this.events.filter(function (e) {
@@ -185,9 +180,11 @@ var Cutty = function () {
     }).forEach(function (e) {
       return e.callback(nextValues, previousValues);
     });
-  };
+  }
 
-  _proto.parseSrcset = function parseSrcset(srcset) {
+  ;
+  _proto.parseSrcset =
+  function parseSrcset(srcset) {
     return srcset.split(',').map(function (candidate) {
       var parts = candidate.replace(/\s+/g, ' ').trim().split(' ');
       var url = parts[0];
@@ -197,13 +194,14 @@ var Cutty = function () {
         names: names
       };
     });
-  };
+  }
 
-  _proto.pickBestCandidate = function pickBestCandidate(candidates, mqNames) {
+  ;
+  _proto.pickBestCandidate =
+  function pickBestCandidate(candidates, mqNames) {
     if (!candidates.length) {
       return {};
     }
-
     var matched = candidates.map(function (candidate) {
       return _objectSpread(_objectSpread({}, candidate), {}, {
         count: _.intersection(candidate.names, mqNames).length
@@ -211,19 +209,14 @@ var Cutty = function () {
     }).filter(function (candidate) {
       return candidate.count;
     });
-
     if (!matched.length) {
       return candidates[0];
     }
-
     var sorted = _.sortBy(matched, ['count']);
-
     return sorted[sorted.length - 1];
   };
-
   return Cutty;
 }();
-
 (window.NB = window.NB || {})[MODULE_NAME] = Cutty;
 
 /***/ }),
