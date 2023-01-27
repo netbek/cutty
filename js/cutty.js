@@ -93,7 +93,9 @@
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var _ = __webpack_require__(1);
 var jQuery = __webpack_require__(2);
 var picturefill = __webpack_require__(3);
@@ -120,10 +122,8 @@ var Cutty = function () {
     this.currentValues = [];
     this.events = [];
   }
-
   var _proto = Cutty.prototype;
-  _proto.init =
-  function init() {
+  _proto.init = function init() {
     if (this.flags.init) {
       return this;
     }
@@ -135,20 +135,14 @@ var Cutty = function () {
     }, 60));
     self.update();
     return this;
-  }
-
-  ;
-  _proto.destroy =
-  function destroy() {
+  };
+  _proto.destroy = function destroy() {
     if (!this.flags.init) {
       return;
     }
     this.log(MODULE_NAME + '.destroy()');
-  }
-
-  ;
-  _proto.log =
-  function log(msg) {
+  };
+  _proto.log = function log(msg) {
     if (this.config.debug && this.flags.console) {
       console.debug(msg);
     }
@@ -159,17 +153,13 @@ var Cutty = function () {
       callback: callback
     });
     return this;
-  }
-
-  ;
-  _proto.update =
-  function update() {
+  };
+  _proto.update = function update() {
     this.log(MODULE_NAME + '.update()');
     var mediaqueries = this.config.mediaqueries;
     var nextValues = Object.keys(mediaqueries).filter(function (name) {
       return picturefill._.matchesMedia(mediaqueries[name]);
     });
-
     if (_.isEqual(this.currentValues, nextValues)) {
       return;
     }
@@ -180,11 +170,8 @@ var Cutty = function () {
     }).forEach(function (e) {
       return e.callback(nextValues, previousValues);
     });
-  }
-
-  ;
-  _proto.parseSrcset =
-  function parseSrcset(srcset) {
+  };
+  _proto.parseSrcset = function parseSrcset(srcset) {
     return srcset.split(',').map(function (candidate) {
       var parts = candidate.replace(/\s+/g, ' ').trim().split(' ');
       var url = parts[0];
@@ -194,11 +181,8 @@ var Cutty = function () {
         names: names
       };
     });
-  }
-
-  ;
-  _proto.pickBestCandidate =
-  function pickBestCandidate(candidates, mqNames) {
+  };
+  _proto.pickBestCandidate = function pickBestCandidate(candidates, mqNames) {
     if (!candidates.length) {
       return {};
     }
