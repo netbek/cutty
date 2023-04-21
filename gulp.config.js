@@ -16,12 +16,6 @@ module.exports = {
   dist: {
     vendor: 'demo/vendor/'
   },
-  modernizr: {
-    cache: false,
-    crawl: false,
-    options: ['setClasses', 'addTest', 'testProp', 'fnBind', 'prefixed'],
-    tests: ['inlinesvg', 'svg', 'svgclippaths']
-  },
   watchTasks: [
     //
     {

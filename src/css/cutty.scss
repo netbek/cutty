@@ -25,15 +25,13 @@
 }
 
 .js {
-  &.svgclippaths {
-    .nb-cutty {
-      &__svg {
-        display: block;
-      }
+  .nb-cutty {
+    &__svg {
+      display: block;
+    }
 
-      &__img {
-        display: none;
-      }
+    &__img {
+      display: none;
     }
   }
 }

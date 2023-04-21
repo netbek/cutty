@@ -12,7 +12,6 @@
       // Picture element HTML5 shiv
       document.createElement('picture');
     </script>
-    <script src="../demo/vendor/modernizr/modernizr.min.js"></script>
     <script src="../node_modules/lodash-3/lodash.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/picturefill/dist/picturefill.min.js"></script>
@@ -47,37 +46,35 @@
 
       <script>
         (function(){
-          if (Modernizr.svgclippaths) {
-            var cutty = new NB.Cutty({
-              mediaqueries: {
-                small: 'only screen and (min-width: 464px)',
-                medium: 'only screen and (min-width: 752px)',
-                large: 'only screen and (min-width: 1008px)',
-                xlarge: 'only screen and (min-width: 1344px)',
-                xxlarge: 'only screen and (min-width: 1920px)',
-                retina: 'only screen and (-webkit-min-device-pixel-ratio: 2), ' +
-                  'only screen and (min--moz-device-pixel-ratio: 2), ' +
-                  'only screen and (-o-min-device-pixel-ratio: 2/1), ' +
-                  'only screen and (min-device-pixel-ratio: 2), ' +
-                  'only screen and (min-resolution: 192dpi), ' +
-                  'only screen and (min-resolution: 2dppx)'
-              }
-            });
-
-            var $img = jQuery('.nb-cutty svg image');
-            var candidates = cutty.parseSrcset($img.attr('data-srcset'));
-            var url = $img.attr('xlink:href');
-
-            cutty
-              .on('update', function(nextValues) {
-                var nextURL = cutty.pickBestCandidate(candidates, nextValues).url;
-                if (nextURL !== url) {
-                  url = nextURL;
-                  $img.attr('xlink:href', nextURL);
-                }
-              })
-              .init();
+          var cutty = new NB.Cutty({
+            mediaqueries: {
+              small: 'only screen and (min-width: 464px)',
+              medium: 'only screen and (min-width: 752px)',
+              large: 'only screen and (min-width: 1008px)',
+              xlarge: 'only screen and (min-width: 1344px)',
+              xxlarge: 'only screen and (min-width: 1920px)',
+              retina: 'only screen and (-webkit-min-device-pixel-ratio: 2), ' +
+                'only screen and (min--moz-device-pixel-ratio: 2), ' +
+                'only screen and (-o-min-device-pixel-ratio: 2/1), ' +
+                'only screen and (min-device-pixel-ratio: 2), ' +
+                'only screen and (min-resolution: 192dpi), ' +
+                'only screen and (min-resolution: 2dppx)'
             }
+          });
+
+          var $img = jQuery('.nb-cutty svg image');
+          var candidates = cutty.parseSrcset($img.attr('data-srcset'));
+          var url = $img.attr('xlink:href');
+
+          cutty
+            .on('update', function(nextValues) {
+              var nextURL = cutty.pickBestCandidate(candidates, nextValues).url;
+              if (nextURL !== url) {
+                url = nextURL;
+                $img.attr('xlink:href', nextURL);
+              }
+            })
+            .init();
         })();
       </script>
     </div>
