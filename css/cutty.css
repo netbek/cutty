@@ -14,8 +14,8 @@
 .no-js .nb-cutty__img {
   display: none; }
 
-.js.svgclippaths .nb-cutty__svg {
+.js .nb-cutty__svg {
   display: block; }
 
-.js.svgclippaths .nb-cutty__img {
+.js .nb-cutty__img {
   display: none; }

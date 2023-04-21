@@ -13,7 +13,6 @@ bower install cutty
 * lodash.isEqual
 * lodash.sortBy
 * lodash.throttle
-* Modernizr (svgclippaths)
 * Picturefill
 
 ## Credit

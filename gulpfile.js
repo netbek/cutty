@@ -5,7 +5,6 @@ const fs = require('fs-extra');
 const gulp = require('gulp');
 const livereload = require('livereload');
 const log = require('fancy-log');
-const modernizr = require('gulp-modernizr');
 const nunjucks = require('nunjucks');
 const open = require('open');
 const os = require('os');
@@ -42,30 +41,6 @@ let browser = gulpConfig.webserver.browsers.default;
 const platform = os.platform();
 if (_.has(gulpConfig.webserver.browsers, platform)) {
   browser = gulpConfig.webserver.browsers[platform];
-}
-
-/**
- * Returns custom Modernizr build.
- *
- * @returns {Promise}
- */
-function buildModernizr() {
-  var data;
-
-  return new Promise(function (resolve, reject) {
-    gulp
-      .src([gulpConfig.src.vendor + 'modernizr/modernizr.css'])
-      .pipe(modernizr(gulpConfig.modernizr))
-      .pipe(
-        through2.obj(function (chunk, enc, callback) {
-          data = chunk.contents.toString(enc);
-          this.emit('end');
-        })
-      )
-      .on('end', function () {
-        resolve(data);
-      });
-  });
 }
 
 /**
@@ -204,27 +179,6 @@ gulp.task('clean', () =>
   Promise.mapSeries(['css', 'js', 'svg', 'demo'], (dir) => fs.removeAsync(dir))
 );
 
-gulp.task('build-modernizr', (cb) => {
-  const filename = gulpConfig.dist.vendor + 'modernizr/modernizr.js';
-  const dirname = path.dirname(filename);
-
-  fs.mkdirpAsync(dirname)
-    .then(buildModernizr)
-    .then((data) => fs.writeFileAsync(filename, data, 'utf-8'))
-    .then(() =>
-      gulp
-        .src(filename)
-        .pipe(uglify())
-        .pipe(
-          rename({
-            suffix: '.min'
-          })
-        )
-        .pipe(gulp.dest(dirname))
-        .on('end', cb)
-    );
-});
-
 gulp.task('build-css', (cb) => {
   buildCss('src/css/**/*.scss', 'css/').on('end', cb);
 });
@@ -262,7 +216,6 @@ gulp.task(
   'build',
   gulp.series(
     'clean',
-    'build-modernizr',
     'build-css',
     'build-img',
     'build-js',
