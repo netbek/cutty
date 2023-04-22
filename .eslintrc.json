@@ -9,8 +9,7 @@
     "node": true
   },
   "globals": {
-    "_": true,
-    "picturefill": true
+    "_": true
   },
   "plugins": [
     "dollar-sign",
