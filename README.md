@@ -3,7 +3,7 @@
 ## Installation
 
 ```shell
-bower install cutty
+npm install cutty
 ```
 
 ## Dependencies
@@ -13,7 +13,6 @@ bower install cutty
 * lodash.isEqual
 * lodash.sortBy
 * lodash.throttle
-* Picturefill
 
 ## Credit
 
