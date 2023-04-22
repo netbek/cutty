@@ -27,12 +27,8 @@
     "samsung >= 5"
   ],
   "dependencies": {
-    "html5shiv": "3.7.3",
     "jquery": "3.6.4",
-    "lodash-3": "https://github.com/lodash/lodash/archive/3.10.1.tar.gz",
-    "normalize-css": "git+https://github.com/necolas/normalize.css.git#02c5c7adbbec1707900fde86068405735c733b42",
-    "picturefill": "3.0.3",
-    "respond.js": "1.4.2"
+    "normalize-css": "git+https://github.com/necolas/normalize.css.git#02c5c7adbbec1707900fde86068405735c733b42"
   },
   "devDependencies": {
     "@babel/core": "7.21.4",
@@ -50,7 +46,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "bluebird": "3.7.2",
     "cheerio": "1.0.0-rc.12",
-    "eslint": "8.38.0",
+    "eslint": "8.39.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-babel": "5.3.1",

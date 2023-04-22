@@ -70,7 +70,7 @@ module.exports = {
   },
   externals: {
     'jquery/dist/jquery.slim': 'jQuery',
-    'lodash-3/lodash': '_',
+    'lodash/lodash': '_',
     'picturefill/dist/picturefill': 'picturefill'
   },
   mode: 'production',

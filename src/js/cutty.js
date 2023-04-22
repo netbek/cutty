@@ -1,6 +1,5 @@
-const _ = require('lodash-3/lodash');
+const _ = require('lodash');
 const jQuery = require('jquery/dist/jquery.slim');
-const picturefill = require('picturefill/dist/picturefill');
 
 const MODULE_NAME = 'Cutty';
 
@@ -52,7 +51,10 @@ class Cutty {
 
     const self = this;
 
-    jQuery(window).on('resize.cutty', _.throttle(() => self.update(), 60));
+    jQuery(window).on(
+      'resize.cutty',
+      _.throttle(() => self.update(), 60)
+    );
 
     self.update();
 
@@ -95,8 +97,8 @@ class Cutty {
 
     const {mediaqueries} = this.config;
 
-    const nextValues = Object.keys(mediaqueries).filter(name =>
-      picturefill._.matchesMedia(mediaqueries[name])
+    const nextValues = Object.keys(mediaqueries).filter(
+      (name) => matchMedia(mediaqueries[name]).matches
     );
 
     // If matched media queries has not changed, then do nothing further.
@@ -109,8 +111,8 @@ class Cutty {
     this.currentValues = nextValues;
 
     this.events
-      .filter(e => e.name === 'update')
-      .forEach(e => e.callback(nextValues, previousValues));
+      .filter((e) => e.name === 'update')
+      .forEach((e) => e.callback(nextValues, previousValues));
   }
 
   /**
@@ -119,11 +121,8 @@ class Cutty {
    * @returns {Array}
    */
   parseSrcset(srcset) {
-    return srcset.split(',').map(candidate => {
-      const parts = candidate
-        .replace(/\s+/g, ' ')
-        .trim()
-        .split(' ');
+    return srcset.split(',').map((candidate) => {
+      const parts = candidate.replace(/\s+/g, ' ').trim().split(' ');
       const url = parts[0];
       const names = parts.slice(1);
 
@@ -143,11 +142,11 @@ class Cutty {
     }
 
     const matched = candidates
-      .map(candidate => ({
+      .map((candidate) => ({
         ...candidate,
         count: _.intersection(candidate.names, mqNames).length
       }))
-      .filter(candidate => candidate.count);
+      .filter((candidate) => candidate.count);
 
     if (!matched.length) {
       return candidates[0];
