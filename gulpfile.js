@@ -13,8 +13,6 @@ const Promise = require('bluebird');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('node-sass'));
 const svgmin = require('gulp-svgmin');
-const through2 = require('through2');
-const uglify = require('gulp-uglify');
 const webpack = require('webpack');
 const webserver = require('gulp-webserver');
 
