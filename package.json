@@ -1,12 +1,17 @@
 {
   "name": "cutty",
   "version": "3.0.2",
+  "engines": {
+    "node": "18.16.0",
+    "npm": "9.6.7"
+  },
   "description": "",
   "repository": {
     "type": "git",
     "url": "git://github.com/netbek/cutty"
   },
   "scripts": {
+    "build": "NODE_OPTIONS=--openssl-legacy-provider gulp",
     "test": "echo test"
   },
   "author": {
