@@ -14,6 +14,12 @@ npm install cutty
 * lodash.sortBy
 * lodash.throttle
 
+## Development
+
+```shell
+npm run build
+```
+
 ## Credit
 
 Test image: [The Blue Marble](https://www.nasa.gov/content/blue-marble-image-of-the-earth-from-apollo-17) - NASA (public domain)
