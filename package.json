@@ -1,6 +1,6 @@
 {
   "name": "cutty",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "engines": {
     "node": "20.10.0",
     "npm": "10.2.3"
