@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const _ = require('lodash');
-const autoprefixer = require('gulp-autoprefixer');
-const cssmin = require('gulp-cssmin');
+const autoprefixer = require('autoprefixer');
+const esbuild = require('esbuild');
 const fs = require('fs-extra');
+const globby = require('globby');
 const gulp = require('gulp');
 const livereload = require('livereload');
 const log = require('fancy-log');
@@ -9,17 +11,15 @@ const nunjucks = require('nunjucks');
 const open = require('open');
 const os = require('os');
 const path = require('path');
+const postcss = require('postcss');
 const Promise = require('bluebird');
-const rename = require('gulp-rename');
-const sass = require('gulp-sass')(require('node-sass'));
-const svgmin = require('gulp-svgmin');
+const sass = require('sass-embedded');
+const gulpSvgmin = require('gulp-svgmin');
 const webpack = require('webpack');
 const webserver = require('gulp-webserver');
 
-Promise.promisifyAll(fs);
-
-const gulpConfig = require('./gulp.config');
-const webpackConfig = require('./webpack.config');
+const gulpConfig = require('./gulp.config.js');
+const webpackConfig = require('./webpack.config.js');
 
 const livereloadOpen =
   (gulpConfig.webserver.https ? 'https' : 'http') +
@@ -41,29 +41,37 @@ if (_.has(gulpConfig.webserver.browsers, platform)) {
   browser = gulpConfig.webserver.browsers[platform];
 }
 
-/**
- *
- * @param   {string} src
- * @param   {string} dist
- * @returns {Stream}
- */
-function buildCss(src, dist) {
-  return gulp
-    .src(src)
-    .pipe(sass(gulpConfig.css.params).on('error', sass.logError))
-    .pipe(autoprefixer(gulpConfig.autoprefixer))
-    .pipe(gulp.dest(dist))
-    .pipe(
-      cssmin({
-        advanced: false
+async function buildCss(src, destDir) {
+  const files = await globby(src);
+
+  for (const file of files) {
+    let css = (await sass.compileAsync(file, gulpConfig.sass)).css;
+
+    css = (
+      await postcss([autoprefixer(gulpConfig.autoprefixer)]).process(css, {
+        from: undefined,
+        to: destDir
       })
-    )
-    .pipe(
-      rename({
-        suffix: '.min'
+    ).css;
+
+    const cssMin = (
+      await esbuild.transform(css, {
+        loader: 'css',
+        minify: true,
+        legalComments: 'none'
       })
-    )
-    .pipe(gulp.dest(dist));
+    ).code;
+
+    const basename = path.basename(file);
+    const destPath = path.join(destDir, basename.replace(/\.scss$/, '.css'));
+    const destMinPath = path.join(
+      destDir,
+      basename.replace(/\.scss$/, '.min.css')
+    );
+
+    await fs.outputFile(destPath, css, 'utf-8');
+    await fs.outputFile(destMinPath, cssMin, 'utf-8');
+  }
 }
 
 /**
@@ -121,7 +129,7 @@ function buildSvg(src, dist) {
   return gulp
     .src(src)
     .pipe(
-      svgmin({
+      gulpSvgmin({
         js2svg: {
           pretty: true
         }
@@ -177,9 +185,7 @@ gulp.task('clean', () =>
   Promise.mapSeries(['css', 'js', 'svg', 'demo'], (dir) => fs.removeAsync(dir))
 );
 
-gulp.task('build-css', (cb) => {
-  buildCss('src/css/**/*.scss', 'css/').on('end', cb);
-});
+gulp.task('build-css', async () => buildCss(['src/css/**/!(_)*.scss'], 'css'));
 
 gulp.task('build-img', (cb) => {
   buildImg('src/img/**/*', 'img/').on('end', cb);
